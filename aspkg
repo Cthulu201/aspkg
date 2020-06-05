@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-# Variables
-#funcpath="${HOME}/dev/aspkg/cpkg"
-funcpath="$(pwd)/functions"
-configpath="./"
-
 # Import functions
-. "${funcpath}/error.func"
-. "${configpath}/aspkg.conf"
+. "${funcpath}/test.func"
+#. "${funcpath}/error.func"
+#. "${configpath}/aspkg.conf"
+
+# Variables
+funcpath="$(pwd)/functions"
+
 
 # What to do if no CLI arguments are passed
 #[ -z "$1" ] && { echo "Failure"; exit 1; }
@@ -42,3 +42,5 @@ case "$1" in
     *)
         echo ${ASCHROOT}
 esac
+
+astestconf

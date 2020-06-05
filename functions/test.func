@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+# Test for config
+astestconf () {
+  if [[ -d "${HOME}/.config" ]]; then
+    if [[ -d "${HOME}/aspkg" ]]; then
+      if [[ -f "${asconfig}" ]]; then
+        echo "aspkg is properly configured"
+      else
+        read "aspkg.conf doesn't exist. Create? (y/N)" aspkgcreate
+        case ${aspkgcreate} in
+          [nN])
+            echo 'You selected "n".'
+            exit 0
+            ;;
+          [yY])
+            echo 'You selected "y". Creating aspkg.conf'
+            cp "$(pwd)/aspkg.conf" "${aspkgconfig}"
+            ;;
+          *)
+            echo 'Error: nothing was selected'
+            exit 1
+            ;;
+        esac
+      fi
+    else
+      read "aspkg directory and aspkg.conf doesn't exist. Create? (y/N)" aspkgcreate
+      case ${aspkgcreate} in
+        [nN])
+          echo 'You selected "n".'
+          exit 0
+          ;;
+        [yY])
+          echo 'You selected "y". Installing aspkg.conf'
+          mkdir "${HOME}/.config/aspkg"
+          cp "$(pwd)/aspkg.conf" "${aspkgconfig}"
+          ;;
+        *)
+          echo 'Error: nothing was selected'
+          unset bamsort
+          exit 1
+          ;;
+      esac
+    fi
+  else
+    echo "Directory isn't there"
+    read "aspkg directory and aspkg.conf doesn't exist. Create? (y/N)" aspkgcreate
+    case ${aspkgcreate} in
+      [nN])
+        echo 'You selected "n".'
+        exit 0
+        ;;
+      [yY])
+        echo 'You selected "y". Installing aspkg.conf'
+        mkdir "${HOME}/.config" "${HOME}/.config/aspkg"
+        cp "$(pwd)/aspkg.conf" "${aspkgconfig}"
+        ;;
+      *)
+        echo 'Error: nothing was selected'
+        unset bamsort
+        exit 1
+        ;;
+    esac
+  fi
+}
