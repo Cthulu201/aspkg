@@ -1,46 +1,25 @@
 #!/usr/bin/env bash
 
-# Import functions
-. "${funcpath}/test.func"
-#. "${funcpath}/error.func"
-#. "${configpath}/aspkg.conf"
-
 # Variables
 funcpath="$(pwd)/functions"
 
-
-# What to do if no CLI arguments are passed
-#[ -z "$1" ] && { echo "Failure"; exit 1; }
-
-if [[ ${ASCHROOT} == ${TESTCHROOT} ]]; then
-	echo "chroots match"
-else
-	echo "chroots don't match"
-	echo "${ASCHROOT} and ${TESTCHROOT}"
-fi
-
-if [[ ${TESTSHELL} == ${ASSHELL} ]]; then
-	echo "Shells match"
-else
-	echo "Shells don't match"
-	echo "${TESTSHELL} and ${ASSHELL}"
-fi
+# Import functions
+. "${funcpath}/test.func"
 
 case "$1" in
-
-        dump)
-        . "${funcpath}/asdump.func"
-        [ -z "$2" ] && aspkg_error_dump
-                asdump "$2"
-                ;;
-    update)
-        . "${funcpath}/cupdate.func"
-        [ -z "$2" ] && aspkg_error_dump
-        [ "$2" = git ] && cupgit
-        [ "$2" = chroot ] && cupchroot
-        ;;
-    *)
-        echo ${ASCHROOT}
+  dump)
+    . "${funcpath}/asdump.func"
+    [ -z "$2" ] && aspkg_error_dump
+    asdump "$2"
+    ;;
+  update)
+    . "${funcpath}/cupdate.func"
+    [ -z "$2" ] && aspkg_error_dump
+    [ "$2" = git ] && cupgit
+    [ "$2" = chroot ] && cupchroot
+    ;;
+  *)
+    echo ${ASCHROOT}
 esac
 
 astestconf

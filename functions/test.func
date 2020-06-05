@@ -3,11 +3,11 @@
 # Test for config
 astestconf () {
   if [[ -d "${HOME}/.config" ]]; then
-    if [[ -d "${HOME}/aspkg" ]]; then
-      if [[ -f "${asconfig}" ]]; then
+    if [[ -d "${HOME}/.config/aspkg" ]]; then
+      if [[ -f "${HOME}/.config/aspkg/aspkg.conf" ]]; then
         echo "aspkg is properly configured"
       else
-        read "aspkg.conf doesn't exist. Create? (y/N)" aspkgcreate
+        read -p "aspkg.conf doesn't exist. Create? (y/N)" aspkgcreate
         case ${aspkgcreate} in
           [nN])
             echo 'You selected "n".'
@@ -24,7 +24,7 @@ astestconf () {
         esac
       fi
     else
-      read "aspkg directory and aspkg.conf doesn't exist. Create? (y/N)" aspkgcreate
+      read -p "aspkg directory and aspkg.conf doesn't exist. Create? (y/N)" aspkgcreate
       case ${aspkgcreate} in
         [nN])
           echo 'You selected "n".'
@@ -44,7 +44,7 @@ astestconf () {
     fi
   else
     echo "Directory isn't there"
-    read "aspkg directory and aspkg.conf doesn't exist. Create? (y/N)" aspkgcreate
+    read -p "aspkg directory and aspkg.conf doesn't exist. Create? (y/N)" aspkgcreate
     case ${aspkgcreate} in
       [nN])
         echo 'You selected "n".'
