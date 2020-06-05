@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
+asconfigpath=".config/aspkg"
+
 # Test for config
 astestconf () {
   if [[ -d "${HOME}/.config" ]]; then
-    if [[ -d "${HOME}/.config/aspkg" ]]; then
-      if [[ -f "${HOME}/.config/aspkg/aspkg.conf" ]]; then
+    if [[ -d "${HOME}/${asconfigpath}" ]]; then
+      if [[ -f "${HOME}/${asconfigpath}/aspkg.conf" ]]; then
         echo "aspkg is properly configured"
       else
         read -p "aspkg.conf doesn't exist. Create? (y/N)" aspkgcreate
@@ -15,7 +17,7 @@ astestconf () {
             ;;
           [yY])
             echo 'You selected "y". Creating aspkg.conf'
-            cp "$(pwd)/aspkg.conf" "${aspkgconfig}"
+            cp "$(pwd)/aspkg.conf" "${HOME}/${aspkgconfig}"
             ;;
           *)
             echo 'Error: nothing was selected'
@@ -32,12 +34,11 @@ astestconf () {
           ;;
         [yY])
           echo 'You selected "y". Installing aspkg.conf'
-          mkdir "${HOME}/.config/aspkg"
-          cp "$(pwd)/aspkg.conf" "${aspkgconfig}"
+          mkdir "${HOME}/${asconfigpath}"
+          cp "$(pwd)/aspkg.conf" "${HOME}/${asconfigpath}/"
           ;;
         *)
           echo 'Error: nothing was selected'
-          unset bamsort
           exit 1
           ;;
       esac
@@ -52,12 +53,11 @@ astestconf () {
         ;;
       [yY])
         echo 'You selected "y". Installing aspkg.conf'
-        mkdir "${HOME}/.config" "${HOME}/.config/aspkg"
-        cp "$(pwd)/aspkg.conf" "${aspkgconfig}"
+        mkdir "${HOME}/.config" "${HOME}/${asconfigpath}"
+        cp "$(pwd)/aspkg.conf" "${HOME}/${asconfigpath}/"
         ;;
       *)
         echo 'Error: nothing was selected'
-        unset bamsort
         exit 1
         ;;
     esac
