@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Build chroots
+build () {
+  chroot_arch=$(uname -m)
+  
+  if [[ "${chroot_arch}" = "x86_64" ]]; then
+      for arch in i686 x86_64; do
+          if [[ -e ${HOME}/dev/chroot/${arch} ]]; then
+              printf '%s\n' "chroot/${arch} already exists"
+          else
+              rm /var/cache/pacman/pkg/*
+              install -dm755 ${HOME}/dev/chroot/${arch}
+              mkarchroot -C $(pwd)/pacman-config/${arch}/pacman.conf -M $(pwd)/pacman-config/${arch}/makepkg.conf ${HOME}/dev/chroot/${arch}/root base-devel
+              [[ -d /home/mike/dev/chroot/i686 ]] && install -Dm644 $(pwd)/pacman-config/${arch}/mirrorlist "/home/mike/dev/chroot/${arch}/root/etc/pacman.d/"
+              sed -i 's|^#Server|Server|' /home/mike/dev/chroot/${arch}/root/etc/pacman.d/mirrorlist
+          fi
+      done
+      exit 0
+  else
+    echo "Building i686 chroot"
+  fi
+}

@@ -8,18 +8,22 @@ funcpath="$(pwd)/functions"
 
 case "$1" in
   dump)
-    . "${funcpath}/asdump.func"
-    [ -z "$2" ] && aspkg_error_dump
-    asdump "$2"
-    ;;
+      . "${funcpath}/asdump.func"
+      [ -z "$2" ] && aspkg_error_dump
+      asdump "$2"
+      ;;
   update)
-    . "${funcpath}/cupdate.func"
-    [ -z "$2" ] && aspkg_error_dump
-    [ "$2" = git ] && cupgit
-    [ "$2" = chroot ] && cupchroot
-    ;;
+      . "${funcpath}/cupdate.func"
+      [ -z "$2" ] && aspkg_error_dump
+      [ "$2" = git ] && cupgit
+      [ "$2" = chroot ] && cupchroot
+      ;;
+  chroot)
+      . "${funcpath}/chroot.func"
+      [ "$2" = build ] && build
+      ;;
   *)
-    echo ${ASCHROOT}
+      echo "Nothing provided"
 esac
 
-astestconf
+
