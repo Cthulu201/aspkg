@@ -2,17 +2,19 @@
 
 # Build chroots
 build () {
-  chroot_arch=$(uname -m)
-  
-  if [[ "${chroot_arch}" = "x86_64" ]]; then
+    chroot_arch=$(uname -m)
+    ls "$(pwd)/pacman-config/i686"
+ if [[ "${chroot_arch}" = "x86_64" ]]; then
       for arch in i686 x86_64; do
-          if [[ -e ${HOME}/dev/chroot/${arch} ]]; then
+          if [[ -e /home/mike/dev/chroot/${arch} ]]; then
               printf '%s\n' "chroot/${arch} already exists"
           else
+              config_path="$(pwd)/pacman-config/${arch}"
+              echo "This is the config path: ${config_path}"
               rm /var/cache/pacman/pkg/*
-              install -dm755 ${HOME}/dev/chroot/${arch}
-              mkarchroot -C $(pwd)/pacman-config/${arch}/pacman.conf -M $(pwd)/pacman-config/${arch}/makepkg.conf ${HOME}/dev/chroot/${arch}/root base-devel
-              [[ -d /home/mike/dev/chroot/i686 ]] && install -Dm644 $(pwd)/pacman-config/${arch}/mirrorlist "/home/mike/dev/chroot/${arch}/root/etc/pacman.d/"
+              install -dm755 "/home/mike/dev/chroot/${arch}"
+              mkarchroot -C "${config_path}/pacman.conf" -M "${config_path}/makepkg.conf" "/home/mike/dev/chroot/${arch}/root" base-devel
+              [[ -d /home/mike/dev/chroot/i686 ]] && install -Dm644 "${config_path}/mirrorlist" "/home/mike/dev/chroot/${arch}/root/etc/pacman.d/"
               sed -i 's|^#Server|Server|' /home/mike/dev/chroot/${arch}/root/etc/pacman.d/mirrorlist
           fi
       done
