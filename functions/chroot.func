@@ -23,3 +23,12 @@ build () {
     echo "Building i686 chroot"
   fi
 }
+
+# Update chroots
+update () {
+  chroot_dirs=(${HOME}/dev/chroot/*)
+  for chdir in "${chroot_dirs[@]}"; do
+    echo "${chdir}"
+    arch-nspawn "${chdir}/root" pacman -Syyu
+  done
+}

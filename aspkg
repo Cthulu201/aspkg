@@ -21,6 +21,7 @@ case "$1" in
   chroot)
       . "${funcpath}/chroot.func"
       [ "$2" = build ] && build
+      [ "$2" = update ] && update
       ;;
   *)
       echo "Nothing provided"
